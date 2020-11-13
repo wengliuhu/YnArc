@@ -1,0 +1,3 @@
+rootProject.name='YnArc'
+include ':app'
+include ':ynbus'
