@@ -18,10 +18,11 @@ import static androidx.lifecycle.Lifecycle.State.DESTROYED;
 import static androidx.lifecycle.Lifecycle.State.STARTED;
 
 /**
- * @author : yuanbingbing
- * @since : 2019/3/22 17:11
- *
- * https://github.com/JeremyLiao/LiveEventBus
+ * @author : wengliuhu
+ * @version : 0.1
+ * @since : 2020/11/16
+ * Describe:模拟jetpack的livedata
+ * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
  */
 public abstract class LiveEvent<T> {
     private final Object mDataLock = new Object();

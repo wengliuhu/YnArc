@@ -1,4 +1,4 @@
-package com.yanantec.ynbus.annotation;
+package com.yanantec.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -19,19 +19,19 @@ public @interface OnMessage
 {
     /**
      * 事件的key
-     * @return
+     * @return key
      */
     String value() default "";
 
     /**
      * 是否一直监听
-     * @return
+     * @return 是否总是接收
      */
     boolean always() default false;
 
     /**
      * 非生命周期活跃下，是否丢弃
-     * @return
+     * @return 是否丢弃
      */
     boolean discard() default false;
 }

@@ -1,3 +1,5 @@
 rootProject.name='YnArc'
 include ':app'
-include ':ynbus'
+include ':yn.bus'
+include ':yn.complier'
+include ':yn.annotation'

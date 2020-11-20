@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yanantec.ynbus.annotation.OnMessage;
-import com.yanantec.ynbus.message.LegoMessageManager;
+import com.yanantec.ynbus.message.YnMessageManager;
 import com.yanantec.ynbus.message.YnArcEventBusListener;
-
+import com.yanantec.annotation.OnMessage;
 public class MainActivity extends AppCompatActivity implements YnArcEventBusListener
 {
 
@@ -19,11 +18,11 @@ public class MainActivity extends AppCompatActivity implements YnArcEventBusList
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        injectBus(this);
+//        injectBus(this);
     }
 
     public void click(View view){
-        LegoMessageManager.getInstance().sendMessage("12345", "当前时间：" + System.currentTimeMillis());
+        YnMessageManager.getInstance().sendMessage("12345", "当前时间：" + System.currentTimeMillis());
     }
 
     @OnMessage(value = "12345")

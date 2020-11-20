@@ -1,0 +1,53 @@
+apply plugin: 'java-library'
+//apply plugin: 'maven'
+//apply plugin: 'com.novoda.bintray-release'
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+//uploadArchives{
+//    repositories.mavenDeployer{
+//        // 配置本地仓库路径，项目根目录下的repository目录中
+//        repository(url: uri('../repository'))
+//        pom.groupId = "com.yanantec.annotation"// 唯一标识（通常为模块包名，也可以任意）
+//        pom.artifactId = "annotation" // 项目名称（通常为类库模块名称，也可以任意）
+//        pom.version = "1.0.0" // 版本号
+//    }
+//}
+
+//publish {
+//    userOrg = 'yn' //bintray账户下某个组织id
+//    groupId = 'com.yanantec.annotation' //maven仓库下库的包名，一般为模块包名
+//    artifactId = 'annotation' //项目名称
+//    publishVersion = '1.0.0' //版本号
+//    desc = '注解' //项目介绍，可以不写
+//    website = '' //项目主页，可以不写
+//}
+
+
+//publish {
+//    repoName = "maven"
+//    userOrg = 'yn'      //bintray注册的用户名
+//    groupId = 'com.yanantec'         //compile引用时的第1部分groupId
+//    artifactId = 'annotation'     //compile引用时的第2部分项目名
+//    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
+//    desc = 'This is a annotation library22'
+//    website = 'https://github.com/wengliuhu/YnArc'
+//}
+
+//publish {
+//    userOrg = 'wengliuhu'            // bintray.com用户名
+//    groupId = 'com.github.xch168' // jcenter上的路径
+//    artifactId = 'androidUtil'    // 项目名称
+//    publishVersion = '0.0.5'      // 版本号
+//    desc = 'Oh hi, this is a nice description for a project, right?' // 描述，不重要
+//    website = 'https://github.com/xch168/AndroidUtil'                // 网站，不重要；可以填写GitHub中的项目地址
+//
+//    bintrayUser = bintray_user // bintray.com的用户名
+//    bintrayKey = bintray_key   // bintray.com的API key
+//}
+//        gradle clean build bintrayUpload -PbintrayUser=wengliuhu -PbintrayKey=53b49eecba33e71d1848fb62fc2fdaad0c85dfe7 -PdryRun=false

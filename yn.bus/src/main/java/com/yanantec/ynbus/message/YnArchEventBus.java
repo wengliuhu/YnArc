@@ -2,11 +2,9 @@ package com.yanantec.ynbus.message;
 
 //import android.arch.lifecycle.LifecycleOwner;
 //import android.arch.lifecycle.Observer;
+
 import android.os.Handler;
 import android.os.Looper;
-//import android.support.annotation.NonNull;
-//
-//import com.kedacom.lego.message.event.LiveEvent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
@@ -19,22 +17,22 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Lego 消息总线(基于LiveData)
+ * @author : wengliuhu
+ * @version : 0.1
+ * @since : 2020/11/16
+ * Describe:
  *
- * @author : yuanbingbing
- * @since : 2018/8/1 09:34
  */
-public class LegoEventBus {
-
-
+public class YnArchEventBus
+{
     private final Map<String, BusLiveEvent<Object>> bus;
 
-    private LegoEventBus() {
+    private YnArchEventBus() {
         bus = new HashMap<>();
     }
 
     private static class SingletonHolder {
-        private static final LegoEventBus DEFAULT_BUS = new LegoEventBus();
+        private static final YnArchEventBus DEFAULT_BUS = new YnArchEventBus();
     }
 
 
@@ -77,7 +75,7 @@ public class LegoEventBus {
      *
      * @return LegoEventBus
      */
-    public static LegoEventBus get() {
+    public static YnArchEventBus get() {
         return SingletonHolder.DEFAULT_BUS;
     }
 
@@ -229,7 +227,7 @@ public class LegoEventBus {
         public void removeObserver(@NonNull Observer<T> observer) {
             super.removeObserver(observer);
             if (!hasObservers()) {
-                LegoEventBus.get().bus.remove(key);
+                YnArchEventBus.get().bus.remove(key);
             }
         }
     }

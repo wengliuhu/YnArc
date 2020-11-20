@@ -1,26 +1,32 @@
 package com.yanantec.ynbus.message;
 
-
-public class LegoMessageManager {
-
+/**
+ * @author : wengliuhu
+ * @version : 0.1
+ * @since : 2020/11/16
+ * Describe:事件总线管理类
+ *
+ */
+public class YnMessageManager
+{
     private static final Object nLock = new Object();
-    private static LegoMessageManager nInstance;
+    private static YnMessageManager nInstance;
 
     /**
      * 在使用本地消息的时候需要初始化实例
      *
      * @return
      */
-    private static LegoMessageManager initInstance() {
+    private static YnMessageManager initInstance() {
         synchronized (nLock) {
             if (nInstance == null) {
-                nInstance = new LegoMessageManager();
+                nInstance = new YnMessageManager();
             }
             return nInstance;
         }
     }
 
-    public static LegoMessageManager getInstance() {
+    public static YnMessageManager getInstance() {
         if (nInstance == null) {
             return initInstance();
         }
@@ -28,7 +34,7 @@ public class LegoMessageManager {
     }
 
 
-    private LegoMessageManager() {
+    private YnMessageManager() {
 
     }
 
@@ -49,6 +55,6 @@ public class LegoMessageManager {
      * @param data
      */
     public <T> void sendMessage(String action, T data) {
-        LegoEventBus.use(action, Object.class).postValue(data);
+        YnArchEventBus.use(action, Object.class).postValue(data);
     }
 }

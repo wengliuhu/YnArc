@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
 
-import com.yanantec.ynbus.annotation.OnMessage;
-import com.yanantec.ynbus.message.LegoEventBus;
+import com.yanantec.annotation.OnMessage;
+import com.yanantec.ynbus.message.YnArchEventBus;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -73,17 +73,17 @@ public class YnBusAnnotationHandler
 
                     final Method finalMethod = entry.getValue();
                     if(messageAnnotation.isAlwaysActive()){
-                        LegoEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
+                        YnArchEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
                             invokeMessageMethod(finalMethod,annotationOwner,data);
                         },true);
 
                     }else {
                         if(messageAnnotation.isDiscard()){
-                            LegoEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
+                            YnArchEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
                                 invokeMessageMethod(finalMethod,annotationOwner,data);
                             },false,true);
                         }else{
-                            LegoEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
+                            YnArchEventBus.get().with(messageAnnotation.getAction(), Object.class).observe((LifecycleOwner) annotationOwner, data -> {
                                 invokeMessageMethod(finalMethod,annotationOwner,data);
                             });
                         }

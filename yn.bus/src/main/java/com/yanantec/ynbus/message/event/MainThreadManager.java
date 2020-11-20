@@ -6,10 +6,11 @@ import android.os.Looper;
 import androidx.annotation.Nullable;
 
 /**
- * @author : yuanbingbing
- * @since : 2019/3/22 17:11
- *
- * https://github.com/JeremyLiao/LiveEventBus
+ * @author : wengliuhu
+ * @version : 0.1
+ * @since : 2020/11/16
+ * Describe:
+ * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
  */
 public class MainThreadManager {
 
