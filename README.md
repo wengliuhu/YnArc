@@ -9,4 +9,4 @@
  maven{ url 'https://dl.bintray.com/yn/maven'}
  
  2.增加依赖：
- implementation("com.yanantec:bus:1.0.0")
+ implementation "com.yanantec:bus:1.0.0"
