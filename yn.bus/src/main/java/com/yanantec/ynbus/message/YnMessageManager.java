@@ -42,7 +42,6 @@ public class YnMessageManager
      * 发送无数据消息
      *
      * @param action 消息来源
-     * @return
      */
     public void sendEmptyMessage(String action) {
         sendMessage(action, null);

@@ -22,7 +22,7 @@ import static androidx.lifecycle.Lifecycle.State.STARTED;
  * @version : 0.1
  * @since : 2020/11/16
  * Describe:模拟jetpack的livedata
- * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
+// * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
  */
 public abstract class LiveEvent<T> {
     private final Object mDataLock = new Object();

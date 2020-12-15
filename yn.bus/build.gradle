@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'maven'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -26,9 +27,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        abortOnError false
-    }
+//    lintOptions {
+//        abortOnError false
+//    }
 
 }
 
@@ -39,8 +40,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(path: ':yn.annotation')
+//    api project(path: ':yn.annotation')
 //    api 'com.yanantec.annotation:annotation:1.0.0'
+    api 'com.yanantec:annotation:1.0.0'
 }
 //uploadArchives{
 //    repositories.mavenDeployer{
@@ -58,7 +60,7 @@ publish {
     groupId = 'com.yanantec'         //compile引用时的第1部分groupId
     artifactId = 'bus'     //compile引用时的第2部分项目名
     publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-    desc = 'This is a event bus library22'
+    desc = 'This is a event bus library'
     website = 'https://github.com/wengliuhu/YnArc'
 }
 //gradle clean build bintrayUpload -PbintrayUser=wengliuhu -PbintrayKey=53b49eecba33e71d1848fb62fc2fdaad0c85dfe7 -PdryRun=false

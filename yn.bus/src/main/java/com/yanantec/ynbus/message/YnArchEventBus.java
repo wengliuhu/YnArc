@@ -153,7 +153,7 @@ public class YnArchEventBus
          * @param owner
          * @param observer
          * @param always false-在LifecycleOwner处于活动状态才会回调onchange，true-一直回调
-         * @param discard true&&always=false在LifecycleOwner处于非活动状态下，发送消息不接收
+         * @param discard discard=true 同时 always=false 在LifecycleOwner处于非活动状态下，发送消息不接收
          */
         void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer, boolean always, boolean discard) ;
 

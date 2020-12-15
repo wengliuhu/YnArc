@@ -14,7 +14,7 @@ import java.util.WeakHashMap;
  *
  * @param <K> Key type
  * @param <V> Value type
- * @hide https://github.com/JeremyLiao/LiveEventBus
+// * @hide https://github.com/JeremyLiao/LiveEventBus
  */
 public class SafeIterableMap<K, V> implements Iterable<Map.Entry<K, V>>
 {

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
  * @version : 0.1
  * @since : 2020/11/16
  * Describe:
- * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
+// * @hide 参考：https://github.com/JeremyLiao/LiveEventBus
  */
 public class MainThreadManager {
 

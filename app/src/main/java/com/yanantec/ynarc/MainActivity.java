@@ -12,7 +12,6 @@ import com.yanantec.ynbus.message.YnArcEventBusListener;
 import com.yanantec.annotation.OnMessage;
 public class MainActivity extends AppCompatActivity implements YnArcEventBusListener
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
