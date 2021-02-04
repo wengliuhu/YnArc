@@ -12,6 +12,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["kim.applicationId": applicationId]
+            }
+        }
     }
 
     buildTypes {
@@ -40,8 +46,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    annotationProcessor project(path: ':yn.complier')
+    annotationProcessor "com.yanantec:complier:1.0.0"
 //    implementation project(path: ':yn.bus')
-//    implementation project(path: ':yn.bus')
+    // 本地仓库
 //    implementation 'com.yanantec.ynbus:ynbus:1.0.0'
-    implementation("com.yanantec:bus:1.0.0")
+    // 远程仓库
+    implementation("com.yanantec:bus:1.0.1")
+
+    implementation 'com.yanantec:annotation:1.2.0'
+
+
 }

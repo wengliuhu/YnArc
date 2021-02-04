@@ -1,10 +1,30 @@
 apply plugin: 'java-library'
 
+apply plugin: 'com.github.panpf.bintray-publish'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    compileOnly  'com.google.auto.service:auto-service:1.0-rc6'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
     api project(path: ':yn.annotation')
+//    api 'com.yanantec:annotation:1.2.0'
+    implementation 'com.squareup:javapoet:1.11.1'
 }
 
-sourceCompatibility = "8"
-targetCompatibility = "8"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+publish {
+    repoName = "maven"
+    userOrg = 'yn'      //bintray注册的用户名
+    groupId = 'com.yanantec'         //compile引用时的第1部分groupId
+    artifactId = 'complier'     //compile引用时的第2部分项目名
+    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
+    desc = 'This is a event bus library'
+    website = 'https://github.com/wengliuhu/YnArc'
+}
+

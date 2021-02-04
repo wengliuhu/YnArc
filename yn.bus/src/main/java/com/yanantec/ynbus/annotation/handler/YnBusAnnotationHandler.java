@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.yanantec.annotation.OnMessage;
+import com.yanantec.annotation.OnMessageIncludeSuper;
 import com.yanantec.ynbus.message.YnArchEventBus;
 
 import java.lang.annotation.Annotation;
@@ -52,6 +53,28 @@ public class YnBusAnnotationHandler
                 assignMessageAnnotation.setAction(annotationValue);
                 assignMessageAnnotation.setAlwaysActive(((OnMessage) annotation).always());
                 assignMessageAnnotation.setDiscard(((OnMessage) annotation).discard());
+                nActionMethodMap.put(assignMessageAnnotation, method);
+            }
+        }else if (annotation instanceof OnMessageIncludeSuper){
+            // 开始注册
+            String annotationValue = ((OnMessageIncludeSuper) annotation).value();
+
+            //默认使用OnMessage 方法名
+            String action = method.getDeclaringClass().getSimpleName() + "&&" + method.getName();
+            if (nActionMethodMap == null) {
+                nActionMethodMap = new HashMap<>();
+            }
+            MessageAnnotation messageAnnotation = new MessageAnnotation();
+            messageAnnotation.setAction(action);
+            messageAnnotation.setAlwaysActive(((OnMessageIncludeSuper) annotation).always());
+            messageAnnotation.setDiscard(((OnMessageIncludeSuper) annotation).discard());
+            nActionMethodMap.put(messageAnnotation, method);
+            if (!TextUtils.isEmpty(annotationValue)) {
+                //如果OnMessage未指定名称，那么只使用 : ClassName&&methodName
+                MessageAnnotation assignMessageAnnotation = new MessageAnnotation();
+                assignMessageAnnotation.setAction(annotationValue);
+                assignMessageAnnotation.setAlwaysActive(((OnMessageIncludeSuper) annotation).always());
+                assignMessageAnnotation.setDiscard(((OnMessageIncludeSuper) annotation).discard());
                 nActionMethodMap.put(assignMessageAnnotation, method);
             }
         }

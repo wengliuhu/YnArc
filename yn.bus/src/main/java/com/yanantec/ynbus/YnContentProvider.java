@@ -16,6 +16,9 @@ import com.yanantec.ynbus.annotation.handler.YnBusAnnotationHandler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author : wengliuhu
@@ -117,8 +120,16 @@ public class YnContentProvider extends ContentProvider
         if (methods == null || methods.length == 0) {
             return;
         }
+        List<Method> allMethods = new ArrayList<>();
+        allMethods.addAll(Arrays.asList(methods));
+        if (lifecycleOwner.getClass().getSuperclass() != null){
+            Method superMethods[] = lifecycleOwner.getClass().getSuperclass().getDeclaredMethods();
+            if (superMethods != null && superMethods.length != 0){
+                allMethods.addAll(Arrays.asList(superMethods));
+            }
+        }
         YnBusAnnotationHandler handler = new YnBusAnnotationHandler();
-        for (Method method : methods) {
+        for (Method method : allMethods) {
 
             Annotation[] annotations = method.getAnnotations();
             if (annotations == null || annotations.length == 0) {

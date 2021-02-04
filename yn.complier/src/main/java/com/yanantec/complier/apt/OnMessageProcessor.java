@@ -8,10 +8,12 @@ import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 /**
  * @author : wengliuhu
@@ -19,7 +21,7 @@ import javax.lang.model.util.Types;
  * @since : 2020/11/16
  * Describe:
  */
-@AutoService(OnMessageProcessor.class)
+//@AutoService(OnMessageProcessor.class)
 public class OnMessageProcessor extends AbstractProcessor
 {
     private Types mTypeUtils;
@@ -32,5 +34,14 @@ public class OnMessageProcessor extends AbstractProcessor
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
     {
         return false;
+    }
+
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv)
+    {
+        super.init(processingEnv);
+        mFiler = processingEnv.getFiler();
+        mMessager = processingEnv.getMessager();
+        mMessager.printMessage(Diagnostic.Kind.ERROR, "-------OnMessageProcessor---init--");
     }
 }

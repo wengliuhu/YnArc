@@ -10,13 +10,14 @@ import java.lang.annotation.Target;
 /**
  * @author : wengliuhu
  * @version : 0.1
- * @since : 2020/11/13
- * Describe:事件注册
+ * @since : 2021/1/29
+ * Describe:事件注册,支持在父类中处理
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface OnMessage
+@Inherited
+public @interface OnMessageIncludeSuper
 {
     /**
      * 事件的key
