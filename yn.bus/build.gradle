@@ -41,7 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(path: ':yn.annotation')
+//    api project(path: ':yn.annotation')
     // 本地仓库
 //    api 'com.yanantec.annotation:annotation:1.0.1'
     // 远程仓库

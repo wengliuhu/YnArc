@@ -134,6 +134,16 @@ public class ProcessorUtil {
         return annotatedClass.getModifiers().contains(Modifier.ABSTRACT);
     }
 
+    /**
+     * 获取类元件的包名
+     * @param element
+     * @return
+     */
+    public static String getPackageName(TypeElement element){
+        String allName = element.getQualifiedName().toString();
+        return allName.substring(0, allName.lastIndexOf("."));
+    }
+
 
 }
 

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yanantec.annotation.MapCreate;
-import com.yanantec.annotation.OnMessage;
+import com.yanantec.ynbus.annotation.OnMessage;
 import com.yanantec.ynbus.message.YnArcEventBusListener;
 import com.yanantec.ynbus.message.YnMessageManager;
 

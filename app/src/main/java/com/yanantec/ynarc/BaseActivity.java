@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.yanantec.annotation.MapCreate;
-import com.yanantec.annotation.OnMessageIncludeSuper;
+import com.yanantec.ynbus.annotation.OnMessageIncludeSuper;
 
 /**
  * @author : wengliuhu

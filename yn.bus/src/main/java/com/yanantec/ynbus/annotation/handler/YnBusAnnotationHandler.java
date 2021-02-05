@@ -5,8 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LifecycleOwner;
 
-import com.yanantec.annotation.OnMessage;
-import com.yanantec.annotation.OnMessageIncludeSuper;
+import com.yanantec.ynbus.annotation.OnMessage;
+import com.yanantec.ynbus.annotation.OnMessageIncludeSuper;
 import com.yanantec.ynbus.message.YnArchEventBus;
 
 import java.lang.annotation.Annotation;

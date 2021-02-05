@@ -1,4 +1,4 @@
-package com.yanantec.annotation;
+package com.yanantec.ynbus.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
