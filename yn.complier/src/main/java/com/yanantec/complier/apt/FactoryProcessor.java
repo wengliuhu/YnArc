@@ -1,12 +1,10 @@
 package com.yanantec.complier.apt;
 
-import com.google.auto.common.MoreElements;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.yanantec.annotation.AbstractFactory;
@@ -30,11 +28,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
-import javax.tools.Diagnostic;
 
 /**
  * @author : wengliuhu
@@ -50,19 +44,23 @@ public class FactoryProcessor extends BaseProcessor
     // <父类名， 子类集合>
     private Map<String,List<TypeElement>> productsMap = new HashMap<>();
 
+    private boolean dealed;
+
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
     {
         try
         {
-            mLogUtil.d("--------process-----");
+//            mLogUtil.d("-----FactoryProcessor---process-----id:" + FactoryProcessor.this);
+            if (dealed) return false;
             filterAnnotations(roundEnv);
 
             Iterator<FactoryBean> iterator = mFactoryList.iterator();
             while (iterator.hasNext()){
                 generateJavaFile(iterator.next());
             }
-        } catch (ClassNotFoundException e)
+            dealed = true;
+        } catch (Exception e)
         {
             e.printStackTrace();
             mLogUtil.e(e);
@@ -162,7 +160,7 @@ public class FactoryProcessor extends BaseProcessor
      * 生成java文件
      */
     private void generateJavaFile(FactoryBean factoryBean){
-        mLogUtil.d("-----generateJavaFile----");
+//        mLogUtil.d("-----generateJavaFile----");
         AbstractFactory factory = factoryBean.getFactoryImp().getAnnotation(AbstractFactory.class);
         String createClassName = factory.name();
         String superClassName = factoryBean.getFactoryImp().getQualifiedName().toString();

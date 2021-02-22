@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yanantec.annotation.LinkedHashMapCreate;
 import com.yanantec.annotation.MapCreate;
 import com.yanantec.ynbus.annotation.OnMessage;
 import com.yanantec.ynbus.message.YnArcEventBusListener;
 import com.yanantec.ynbus.message.YnMessageManager;
 
-@MapCreate(key = "22")
+@MapCreate(key = "222")
+@LinkedHashMapCreate(key = "222", position = 2)
 public class MainActivity extends BaseActivity  implements YnArcEventBusListener
 {
     @Override

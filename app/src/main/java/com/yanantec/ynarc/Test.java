@@ -1,5 +1,6 @@
 package com.yanantec.ynarc;
 
+import com.yanantec.annotation.LinkedHashMapCreate;
 import com.yanantec.annotation.MapCreate;
 
 /**
@@ -8,7 +9,8 @@ import com.yanantec.annotation.MapCreate;
  * @since : 2021/2/2
  * Describe
  */
-@MapCreate(key = "222")
+@LinkedHashMapCreate(key = "111", position = 1)
+@MapCreate(key = "22")
 public class Test
 {
     class BalloonFactory{

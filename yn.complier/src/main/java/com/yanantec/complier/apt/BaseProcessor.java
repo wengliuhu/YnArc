@@ -15,7 +15,9 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 
 /**
  * @author : wengliuhu
@@ -29,6 +31,7 @@ public class BaseProcessor extends AbstractProcessor
     protected Messager mMessager;
     protected static String PACKAGE_NAME = "com.kim.map";
     protected LogUtil mLogUtil;
+    protected Elements mElements;
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv)
     {
@@ -36,6 +39,7 @@ public class BaseProcessor extends AbstractProcessor
         mFiler = processingEnv.getFiler();
         mMessager = processingEnv.getMessager();
         mLogUtil = new LogUtil(mMessager);
+        mElements = processingEnv.getElementUtils();
         Map<String, String> options = processingEnv.getOptions();
         if (options != null && options.size() > 0){
             for (Map.Entry<String, String> entry : options.entrySet())

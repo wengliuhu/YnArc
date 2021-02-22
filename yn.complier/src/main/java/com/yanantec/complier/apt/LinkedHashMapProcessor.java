@@ -8,21 +8,19 @@ import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.yanantec.annotation.LinkedHashMapCreate;
 import com.yanantec.annotation.MapCreate;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
@@ -38,36 +36,37 @@ import static javax.lang.model.element.Modifier.STATIC;
 /**
  * @author : wengliuhu
  * @version : 0.1
- * @since : 2021/2/3
- * Describe:自动生成集合key-value类
+ * @since : 2021/2/22
+ * Describe
  */
 @AutoService(Processor.class)
-public class MapProcessor extends AbstractProcessor
+public class LinkedHashMapProcessor extends BaseProcessor
 {
-    private Filer mFiler;
-    private Messager mMessager;
+
     // 用于存储map属性名和map存储的
-    private Map<String, List<TypeElement>> actionMaps = new HashMap<>();
-    private static String PACKAGE_NAME = "com.kim.map";
+    private Map<String, List<MapBean>> actionMaps = new HashMap<>();
+
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
     {
         mMessager.printMessage(Diagnostic.Kind.NOTE, "---MapProcessor-process----:");
         actionMaps.clear();
-        Set<? extends Element>  elements = roundEnv.getElementsAnnotatedWith(MapCreate.class);
+        Set<? extends Element>  elements = roundEnv.getElementsAnnotatedWith(LinkedHashMapCreate.class);
         // 筛选注解
         Iterator<? extends  Element> iterator = elements.iterator();
         while (iterator.hasNext()){
             Element element = iterator.next();
             if (element.getKind() == ElementKind.CLASS){
-                String filedName = element.getAnnotation(MapCreate.class).mapFiled();
-                List<TypeElement> elementList;
+                LinkedHashMapCreate linkedHashMapCreate = element.getAnnotation(LinkedHashMapCreate.class);
+                String filedName = linkedHashMapCreate.mapFiled();
+                List<MapBean> elementList;
                 if (actionMaps.containsKey(filedName)){
                     elementList = actionMaps.get(filedName);
                 }else {
                     elementList = new ArrayList<>();
                 }
-                elementList.add((TypeElement) element);
+                elementList.add(new MapBean(linkedHashMapCreate.position(), (TypeElement) element));
+                Collections.sort(elementList);
                 actionMaps.put(filedName, elementList);
             }
         }
@@ -75,39 +74,39 @@ public class MapProcessor extends AbstractProcessor
         // 生成MAP类
         if (actionMaps.size() > 0){
             // 创建一个类
-            TypeSpec.Builder typeBuilder = TypeSpec.classBuilder("KimMap").addModifiers(PUBLIC);
+            TypeSpec.Builder typeBuilder = TypeSpec.classBuilder("KimLinkedHashMap").addModifiers(PUBLIC);
             CodeBlock.Builder codeBuilder =CodeBlock.builder();
             // 用于提示统一个集合是否存在重复的key
             Map<String, String> allrRepeatKey = new HashMap<>();
-            for (Map.Entry<String, List<TypeElement>> entry : actionMaps.entrySet())
+            for (Map.Entry<String, List<MapBean>> entry : actionMaps.entrySet())
             {
-                List<TypeElement> fileds = entry.getValue();
+                List<MapBean> fileds = entry.getValue();
                 // 判断当前map属性名所包含的键值对是否为空
                 if (fileds == null || fileds.size() < 0) continue;
                 // map对应的属性名称
                 String mapName = entry.getKey();
                 // HashMap
-                ClassName hashMapClasssName = ClassName.get("java.util","HashMap");
+                ClassName linkedHashMapClasssName = ClassName.get("java.util","LinkedHashMap");
                 // String
                 ClassName stringClassName = ClassName.get("java.lang", "String");
                 // HashMap<String, String>
-                TypeName hashMapStringClassName = ParameterizedTypeName.get(hashMapClasssName, stringClassName, stringClassName);
+                TypeName linkedHashMapStringClassName = ParameterizedTypeName.get(linkedHashMapClasssName, stringClassName, stringClassName);
                 // 生成Map属性，并初始化,生成代码：P  public static final HashMap MAP_CREATE = new HashMap<String, String>();
-                FieldSpec fieldSpec = FieldSpec.builder(HashMap.class, mapName)
+                FieldSpec fieldSpec = FieldSpec.builder(LinkedHashMap.class, mapName)
                         .addModifiers(PUBLIC, FINAL, STATIC)
-                        .initializer("new $T()", hashMapStringClassName)
+                        .initializer("new $T()", linkedHashMapStringClassName)
                         .build();
                 typeBuilder.addField(fieldSpec);
 
                 // 添加类名和key的对应关系
-                Iterator<TypeElement> iterator1 = fileds.iterator();
+                Iterator<MapBean> iterator1 = fileds.iterator();
                 // 找出类中重复的元素:<key值, 类名>，
                 Map<String, String> repeatKeys = new HashMap<>();
                 while (iterator1.hasNext()){
                     // 静态代码块中存入key-类名
-                    TypeElement element = iterator1.next();
-                    String value = element.getEnclosingElement().toString() + "." + element.getSimpleName().toString();
-                    String key = element.getAnnotation(MapCreate.class).key();
+                    TypeElement element = iterator1.next().element;
+                    String value = element.getQualifiedName().toString();
+                    String key = element.getAnnotation(LinkedHashMapCreate.class).key();
                     codeBuilder.addStatement("$L.put($S,$S)", mapName, key, value);
                     if (repeatKeys.containsKey(key)){
                         // 保存重复的
@@ -147,32 +146,12 @@ public class MapProcessor extends AbstractProcessor
     }
 
     @Override
-    public synchronized void init(ProcessingEnvironment processingEnv)
-    {
-        super.init(processingEnv);
-        mFiler = processingEnv.getFiler();
-        mMessager = processingEnv.getMessager();
-//        mMessager.printMessage(Diagnostic.Kind.WARNING, "------MapProcessor------init----------");
-        Map<String, String> options = processingEnv.getOptions();
-        if (options != null && options.size() > 0){
-            for (Map.Entry<String, String> entry : options.entrySet())
-            {
-                if (entry.getKey().contains("kim.applicationId")){
-                    PACKAGE_NAME = entry.getValue();
-                }
-//                mMessager.printMessage(Diagnostic.Kind.NOTE, "------getOptions------key:" + entry.getKey() + ";value:" + entry.getValue());
-            }
-        }
-
-    }
-
-    @Override
     public Set<String> getSupportedAnnotationTypes()
     {
-//        Set<String> types =   new LinkedHashSet<>();
-//        types.add(MapCreate.class.getCanonicalName());
-//        return types;
-        return Collections.singleton(MapCreate.class.getCanonicalName());
+        //        Set<String> types =   new LinkedHashSet<>();
+        //        types.add(MapCreate.class.getCanonicalName());
+        //        return types;
+        return Collections.singleton(LinkedHashMapCreate.class.getCanonicalName());
     }
 
     @Override
@@ -188,5 +167,26 @@ public class MapProcessor extends AbstractProcessor
         Set<String> stringSet = new LinkedHashSet<>();
         stringSet.add("kim.applicationId");
         return stringSet;
+    }
+
+    class MapBean implements Comparable{
+        int position;
+//        String className;
+        TypeElement element;
+
+        public MapBean(int position, TypeElement element)
+        {
+            this.position = position;
+//            this.className = className;
+            this.element = element;
+        }
+
+        @Override
+        public int compareTo(Object o)
+        {
+            if (o instanceof MapBean){
+                return position > ((MapBean) o).position ? 1 : -1;
+            }else return 0;
+        }
     }
 }

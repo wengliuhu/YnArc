@@ -38,9 +38,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    compileOnly 'junit:junit:4.12'
+//    compileOnly 'androidx.test.ext:junit:1.1.2'
+//    compileOnly 'androidx.test.espresso:espresso-core:3.3.0'
 //    api project(path: ':yn.annotation')
     // 本地仓库
 //    api 'com.yanantec.annotation:annotation:1.0.1'
@@ -62,8 +62,8 @@ dependencies {
 //    userOrg = 'yn'      //bintray注册的用户名
 //    groupId = 'com.yanantec'         //compile引用时的第1部分groupId
 //    artifactId = 'bus'     //compile引用时的第2部分项目名
-//    publishVersion = '1.0.1'    //compile引用时的第3部分版本号
-//    desc = 'This is a event bus library'
+//    publishVersion = '1.0.2'    //compile引用时的第3部分版本号
+//    desc = '注解合并'
 //    website = 'https://github.com/wengliuhu/YnArc'
 //}
 //gradle clean build bintrayUpload -PbintrayUser=wengliuhu -PbintrayKey=53b49eecba33e71d1848fb62fc2fdaad0c85dfe7 -PdryRun=false

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.yanantec.annotation.LinkedHashMapCreate;
 import com.yanantec.annotation.MapCreate;
 import com.yanantec.ynbus.annotation.OnMessageIncludeSuper;
 
@@ -14,6 +15,7 @@ import com.yanantec.ynbus.annotation.OnMessageIncludeSuper;
  * Describe
  */
 @MapCreate(key = "666", mapFiled = "MyMap")
+@LinkedHashMapCreate(key = "333", position = 3)
 public class BaseActivity extends AppCompatActivity
 {
     @OnMessageIncludeSuper(value = "123456")
