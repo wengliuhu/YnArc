@@ -13,6 +13,11 @@ import com.yanantec.annotation.MapCreate;
 @MapCreate(key = "22")
 public class Test
 {
+    private int mAge;
+    private void setAge(){
+
+    }
+
     class BalloonFactory{
         Balloon createBallon(int color){
             switch (color){
