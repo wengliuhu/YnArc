@@ -61,6 +61,6 @@ dependencies {
 //    implementation project(path: ':yn.annotation')
 //    implementation "com.yanantec:annotation:1.4.0"
 
-    implementation 'com.github.wengliuhu:YnArc:2.0'
+    implementation 'com.github.wengliuhu:YnArc:1.0.2'
 
 }

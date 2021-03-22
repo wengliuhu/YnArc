@@ -4,8 +4,8 @@ apply plugin: 'java-library'
 
 //apply plugin: 'com.github.panpf.bintray-publish'
 
-//apply plugin: 'com.github.dcendents.android-maven'
-//group='com.github.wengliuhu'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.wengliuhu'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
