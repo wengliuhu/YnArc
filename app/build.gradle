@@ -47,7 +47,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    annotationProcessor project(':yn.complier')
+//    annotationProcessor project(':yn.complier')
 //    annotationProcessor "com.yanantec:complier:1.4.0_SNAP_SHOT"
 
 
@@ -55,11 +55,12 @@ dependencies {
     // 本地仓库
 //    implementation 'com.yanantec.ynbus:ynbus:1.0.0'
     // 远程仓库
-    implementation ("com.yanantec:bus:1.0.2")
+//    implementation ("com.yanantec:bus:1.0.2")
 
 
-    implementation project(path: ':yn.annotation')
+//    implementation project(path: ':yn.annotation')
 //    implementation "com.yanantec:annotation:1.4.0"
 
+    implementation 'com.github.wengliuhu:YnArc:2.0'
 
 }
