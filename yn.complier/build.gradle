@@ -1,6 +1,10 @@
 apply plugin: 'java-library'
 
-apply plugin: 'com.github.panpf.bintray-publish'
+//apply plugin: 'com.github.panpf.bintray-publish'
+
+//jitpack库
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.wengliuhu'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -18,13 +22,13 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-publish {
-    repoName = "maven"
-    userOrg = 'yn'      //bintray注册的用户名
-    groupId = 'com.yanantec'         //compile引用时的第1部分groupId
-    artifactId = 'complier'     //compile引用时的第2部分项目名
-    publishVersion = '1.4.1_SNAP_SHOT'    //compile引用时的第3部分版本号
-    desc = 'abstarct factory'
-    website = 'https://github.com/wengliuhu/YnArc'
-}
+//publish {
+//    repoName = "maven"
+//    userOrg = 'yn'      //bintray注册的用户名
+//    groupId = 'com.yanantec'         //compile引用时的第1部分groupId
+//    artifactId = 'complier'     //compile引用时的第2部分项目名
+//    publishVersion = '1.4.1_SNAP_SHOT'    //compile引用时的第3部分版本号
+//    desc = 'abstarct factory'
+//    website = 'https://github.com/wengliuhu/YnArc'
+//}
 
