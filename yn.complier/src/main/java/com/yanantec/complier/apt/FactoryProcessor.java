@@ -141,10 +141,10 @@ public class FactoryProcessor extends BaseProcessor
                         && element.getModifiers().contains(Modifier.ABSTRACT)
                         && element.getModifiers().contains(Modifier.PUBLIC)
                         && element.getKind().equals(ElementKind.METHOD)){
-                    if (((ExecutableElement)element).getParameters().size() > 2 ||
+                    if (((ExecutableElement)element).getParameters().size() == 0 ||
                             !((ExecutableElement)element).getParameters().get(0).asType().toString().equals("java.lang.String"))
                     {
-                        mLogUtil.e("@Produce 作用的方法必须有且只有一个java.lang.String类型参数,且参数做多为2个");
+                        mLogUtil.e("@Produce 作用的方法最少有 一个java.lang.String类型的参数，且String类型参数必须是第一个参数");
                         return false;
                     }
                     methodList.add((ExecutableElement) element);

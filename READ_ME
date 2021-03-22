@@ -1,0 +1,30 @@
+事件总线：
+    在mianfest文件中添加:
+     <provider
+                android:authorities="${applicationId}.contextprovider"
+                android:name="com.yanantec.ynbus.YnContentProvider"
+                android:exported="true"/>
+    事件发送：
+        YnMessageManager.getInstance.sendMessage(key, value);
+    注册（Activity和Fragment中无需注册)
+        实现 YnArcEventBusListener和LifecycleOwner接口,并在类初始化时调用:injectBus(this);
+        public Class Test implements YnArcEventBusListener, LifecycleOwner{
+            public void creat(){
+            injectBus(this);
+            }
+        }
+    事件接收：
+         @OnMessage(value = key)
+         public void method(Object value){
+
+         }
+
+抽象工厂：
+    @Produce:生产动作，作用于方法，用于产品对象的实例化；
+    @Product：产品，被实例化的类；
+    @AbstractFactory： 生产产品的工厂
+
+生成无序的Map和有序的LinkedHashMap
+    @MapCreate
+    @LinkedHashMapCreate
+
