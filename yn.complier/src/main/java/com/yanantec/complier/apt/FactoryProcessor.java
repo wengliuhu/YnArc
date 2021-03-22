@@ -12,6 +12,7 @@ import com.yanantec.annotation.Produce;
 import com.yanantec.annotation.Product;
 import com.yanantec.complier.apt.util.ProcessorUtil;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,7 +29,10 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.TypeParameterElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
+import javax.xml.crypto.Data;
 
 /**
  * @author : wengliuhu
@@ -137,10 +141,10 @@ public class FactoryProcessor extends BaseProcessor
                         && element.getModifiers().contains(Modifier.ABSTRACT)
                         && element.getModifiers().contains(Modifier.PUBLIC)
                         && element.getKind().equals(ElementKind.METHOD)){
-                    if (((ExecutableElement)element).getParameters().size() != 1 ||
+                    if (((ExecutableElement)element).getParameters().size() > 2 ||
                             !((ExecutableElement)element).getParameters().get(0).asType().toString().equals("java.lang.String"))
                     {
-                        mLogUtil.e("@Produce 作用的方法必须有且只有一个java.lang.String类型参数");
+                        mLogUtil.e("@Produce 作用的方法必须有且只有一个java.lang.String类型参数,且参数做多为2个");
                         return false;
                     }
                     methodList.add((ExecutableElement) element);
@@ -181,16 +185,45 @@ public class FactoryProcessor extends BaseProcessor
         {
             if (methodE.getParameters().size() == 0) continue;
             MethodSpec.Builder methodSpecBuilder = MethodSpec.methodBuilder(methodE.getSimpleName().toString());
-//            for (TypeParameterElement v : methodE.getTypeParameters())
-//            {
-//                ParameterSpec parameterSpec = ParameterSpec.builder(v.get)
+            // 方法的参数部分， 第一个string 类型的key参数
+            List<ParameterSpec> paramTypeNames = new ArrayList<>();
+            List<? extends VariableElement> paramElements = methodE.getParameters();
+            for (int i = 0; i < paramElements.size(); i ++){
+                VariableElement itemParamElement = paramElements.get(i);
+//                TypeName typeName = new TypeName(itemParamElement.asType().toString());
+//                Type type = itemParamElement.asType();
+
+                String itemClassName = itemParamElement.asType().toString();
+                if (itemClassName != null && itemClassName.length() > 0 && itemClassName.contains(".")){
+                    String paramsPackageName = itemClassName.substring(0, itemClassName.lastIndexOf("."));
+                    String paramsName = itemClassName.substring(itemClassName.lastIndexOf(".") + 1);
+                    TypeName itemTypeName = ClassName.get(paramsPackageName,paramsName);
+                    ParameterSpec parameterSpec2 = ParameterSpec.builder(itemTypeName, itemParamElement.getSimpleName().toString()).build();
+                    paramTypeNames.add(parameterSpec2);
+                }
+            }
+
+            String param = methodE.getParameters().get(0).toString();
+//            ParameterSpec parameterSpec = ParameterSpec.builder(String.class, param)
+//                    .build();
+//            paramTypeNames.add(parameterSpec);
+//
+//            // 参数的类型名
+//            String paramsClassName = ProcessorUtil.getClassName(methodE, Produce.class.getName(), "paramas");
+//            TypeName paramsTymeName = null;
+//            if (paramsClassName != null && paramsClassName.length() > 0 && paramsClassName.contains(".")){
+//                String paramsPackageName = paramsClassName.substring(0, paramsClassName.lastIndexOf("."));
+//                String paramsName = paramsClassName.substring(paramsClassName.lastIndexOf(".") + 1);
+//                paramsTymeName = ClassName.get(paramsPackageName,paramsName);
+//                ParameterSpec parameterSpec2 = ParameterSpec.builder(paramsTymeName, "parames").build();
+//                paramTypeNames.add(parameterSpec2);
 //            }
+
             // 方法的返回类型
             TypeMirror returnTypeMirror = methodE.getReturnType();
-            String param = methodE.getParameters().get(0).toString();
-            ParameterSpec parameterSpec = ParameterSpec.builder(String.class, param)
-                    .build();
+            // 所有要if-else实例化的对象
             List<TypeElement> entities = productsMap.get(returnTypeMirror.toString());
+
             if (entities == null || entities.size() == 0) continue;
             TypeName textUtilName = ClassName.get("android.text","TextUtils");
 
@@ -204,13 +237,30 @@ public class FactoryProcessor extends BaseProcessor
                 }else {
                     methodSpecBuilder.nextControlFlow("else if ($T.equals($S, $L))", textUtilName, key, param);
                 }
-                methodSpecBuilder.addStatement("return new $T()", backEntity);
+                if (paramTypeNames.size() > 1){
+                    StringBuilder builder = new StringBuilder("return new $T(");
+                    Iterator<ParameterSpec> iterator = paramTypeNames.iterator();
+                    iterator.next();
+                    Object paramFiledNames[] = new Object[paramTypeNames.size()];
+                    paramFiledNames[0] = backEntity;
+                    for (int k = 1; k < paramTypeNames.size(); k ++){
+                        builder.append("$L");
+                        if (k != paramTypeNames.size() - 1){
+                            builder.append(",");
+                        }
+                       paramFiledNames[k] = paramTypeNames.get(k).name;
+                    }
+                    builder.append(")");
+                    methodSpecBuilder.addStatement(builder.toString(), paramFiledNames);
+                }else {
+                    methodSpecBuilder.addStatement("return new $T()", backEntity);
+                }
             }
             methodSpecBuilder.endControlFlow()
                     .addStatement("return null");
 
             MethodSpec methodSpec = methodSpecBuilder.returns(TypeName.get(returnTypeMirror))
-                                        .addParameter(parameterSpec)
+                                        .addParameters(paramTypeNames)
                                         .addAnnotation(Override.class)
                                         .addModifiers(Modifier.PUBLIC)
                                         .build();

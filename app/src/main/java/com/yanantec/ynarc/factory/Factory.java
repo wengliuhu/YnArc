@@ -9,7 +9,7 @@ import com.yanantec.annotation.Produce;
  * @since : 2021/2/4
  * Describe
  */
-@AbstractFactory()
+@AbstractFactory(name = "Company")
 public interface Factory
 {
     @Produce
@@ -19,4 +19,7 @@ public interface Factory
 //    void create();
 
 //    IProduct creatProduct2(String key);
+
+    @Produce
+    DoubleProduct createDoubleProduct(String key, Product1 age);
 }

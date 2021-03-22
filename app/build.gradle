@@ -47,8 +47,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-//    annotationProcessor project(':yn.complier')
-    annotationProcessor "com.yanantec:complier:1.4.0_SNAP_SHOT"
+    annotationProcessor project(':yn.complier')
+//    annotationProcessor "com.yanantec:complier:1.4.0_SNAP_SHOT"
 
 
 //    implementation project(path: ':yn.bus')
@@ -58,8 +58,8 @@ dependencies {
     implementation ("com.yanantec:bus:1.0.2")
 
 
-//    implementation project(path: ':yn.annotation')
-    implementation "com.yanantec:annotation:1.4.0"
+    implementation project(path: ':yn.annotation')
+//    implementation "com.yanantec:annotation:1.4.0"
 
 
 }

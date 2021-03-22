@@ -1,11 +1,18 @@
 package com.yanantec.complier.apt.util;
 
 
+import com.yanantec.annotation.Product;
+
+import java.lang.annotation.Annotation;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.Messager;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -144,6 +151,60 @@ public class ProcessorUtil {
         return allName.substring(0, allName.lastIndexOf("."));
     }
 
+    /**
+     * 通过镜像 获取class类名
+     * @param element 当前元素
+     * @param annotationName 注解名
+     * @param className 注解定义的类名（无包名）
+     * @return
+     */
+    public static String getClassName(Element element, String annotationName, String className){
+        String superName = "";
+        try
+        {
+            for (AnnotationMirror m: element.getAnnotationMirrors())
+            {
+                if (m.getAnnotationType().toString().equals(annotationName)){
+                    for (Map.Entry e : m.getElementValues().entrySet())
+                    {
+                        ExecutableElement key = (ExecutableElement) e.getKey();
+                        if (key.getSimpleName().toString().equals(className)){
+                            AnnotationValue value = (AnnotationValue) e.getValue();
+                            superName = value.getValue().toString();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return superName;
+    }
+
+    public static String getClassName(Element element, String className){
+        String superName = "";
+        try
+        {
+            for (AnnotationMirror m: element.getAnnotationMirrors())
+            {
+                for (Map.Entry e : m.getElementValues().entrySet())
+                {
+                    ExecutableElement key = (ExecutableElement) e.getKey();
+                    if (key.getSimpleName().toString().equals(className)){
+                        AnnotationValue value = (AnnotationValue) e.getValue();
+                        superName = value.getValue().toString();
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return superName;
+    }
 
 }
 
