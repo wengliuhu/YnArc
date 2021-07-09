@@ -4,8 +4,8 @@ apply plugin: 'java-library'
 
 //apply plugin: 'com.github.panpf.bintray-publish'
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.wengliuhu'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group='com.github.wengliuhu'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -38,3 +38,11 @@ targetCompatibility = "8"
 
 
 //        gradle clean build bintrayUpload -PbintrayUser=wengliuhu -PbintrayKey=53b49eecba33e71d1848fb62fc2fdaad0c85dfe7 -PdryRun=false
+
+// maven仓库
+ext {
+    PUBLISH_GROUP_ID = 'io.github.wengliuhu'
+    PUBLISH_VERSION = '1.6'
+    PUBLISH_ARTIFACT_ID = 'factory_annotation'
+}
+apply from: '../java_library.gradle'

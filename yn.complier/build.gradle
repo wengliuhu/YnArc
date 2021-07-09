@@ -11,8 +11,9 @@ dependencies {
     compileOnly  'com.google.auto.service:auto-service:1.0-rc6'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
 //    implementation project(path: ':yn.annotation')
-    implementation "com.yanantec:annotation:1.4.0"
+//    implementation "com.yanantec:annotation:1.4.0"
     implementation 'com.squareup:javapoet:1.11.1'
+    implementation "io.github.wengliuhu:factory_annotation:1.6"
 }
 
 sourceCompatibility = "1.8"
@@ -31,4 +32,12 @@ tasks.withType(JavaCompile) {
 //    desc = 'abstarct factory'
 //    website = 'https://github.com/wengliuhu/YnArc'
 //}
+
+// maven仓库
+ext {
+    PUBLISH_GROUP_ID = 'io.github.wengliuhu'
+    PUBLISH_VERSION = '1.6'
+    PUBLISH_ARTIFACT_ID = 'factory_complier'
+}
+apply from: '../java_library.gradle'
 

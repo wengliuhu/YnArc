@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+}
+
 //apply plugin: 'maven'
 //apply plugin: 'com.novoda.bintray-release'
 
@@ -24,7 +27,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -39,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
 //    compileOnly 'junit:junit:4.12'
@@ -72,3 +75,9 @@ dependencies {
 //}
 //gradle clean build bintrayUpload -PbintrayUser=wengliuhu -PbintrayKey=53b49eecba33e71d1848fb62fc2fdaad0c85dfe7 -PdryRun=false
 
+ext {
+    PUBLISH_GROUP_ID = 'io.github.wengliuhu'
+    PUBLISH_VERSION = '1.6'
+    PUBLISH_ARTIFACT_ID = 'Bus'
+}
+apply from: '../publish-mavencentral.gradle'
