@@ -17,9 +17,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 public @interface Produce
 {
-    /**
+/*    *//**
      * 构造函数的参数类型
      * @return
-     */
-    Class paramas() default Object.class;
+     *//*
+    Class paramas() default Object.class;*/
+
 }

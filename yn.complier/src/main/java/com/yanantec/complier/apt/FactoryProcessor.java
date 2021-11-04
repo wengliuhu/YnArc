@@ -90,18 +90,25 @@ public class FactoryProcessor extends BaseProcessor
             }
 //            Product product = productElement.getAnnotation(Product.class);
             // 获取要转化的类名
-            String superName = "null";
+            List<String> superNames = new ArrayList<>();
             try
             {
                 for (AnnotationMirror m: productElement.getAnnotationMirrors())
                 {
                     if (m.getAnnotationType().toString().equals(Product.class.getName())){
                         for (Map.Entry e : m.getElementValues().entrySet())
+
                         {
                             ExecutableElement key = (ExecutableElement) e.getKey();
                             if (key.getSimpleName().toString().equals("superClass")){
                                 AnnotationValue value = (AnnotationValue) e.getValue();
-                                superName = value.getValue().toString();
+                                superNames.add(value.getValue().toString());
+                            }else if (key.getSimpleName().toString().equals("superClasses")){
+                                AnnotationValue value = (AnnotationValue) e.getValue();
+                                List superclasses = (List) value.getValue();
+                                for (int i = 0; i < superclasses.size(); i ++){
+                                    superNames.add(superclasses.get(i).toString().replace(".class", ""));
+                                }
                             }
                         }
                     }
@@ -114,13 +121,15 @@ public class FactoryProcessor extends BaseProcessor
 //            String childName = productElement.getQualifiedName().toString();
             // 存入
             List<TypeElement> childClassNames;
-            if (productsMap.containsKey(superName)){
-                childClassNames = productsMap.get(superName);
-            }else {
-                childClassNames = new ArrayList<>();
+            for (String superclassName : superNames) {
+                if (productsMap.containsKey(superclassName)){
+                    childClassNames = productsMap.get(superclassName);
+                }else {
+                    childClassNames = new ArrayList<>();
+                }
+                childClassNames.add(productElement);
+                productsMap.put(superclassName, childClassNames);
             }
-            childClassNames.add(productElement);
-            productsMap.put(superName, childClassNames);
         }
         //生成抽象工厂类
         Iterator<? extends Element> factoryIterator = factoryElements.iterator();

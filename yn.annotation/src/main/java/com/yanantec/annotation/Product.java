@@ -27,5 +27,10 @@ public @interface Product
      * 要转化为的基类，作用于多态（因为个类，最多有一个父类，但却可以实现多个接口，所以此处要定义该类型属于哪个基类的）
      * @return
      */
-    Class superClass();
+    @Deprecated
+    Class superClass() default Object.class;
+
+
+    Class[] superClasses() default {};
+
 }
